@@ -1,9 +1,11 @@
 
 import pytest
 from playwright.sync_api import expect
+import re
 
 from pages.home_page import HomePage
-
+from pages.login_page import LoginPage
+from pages.contact_page import ContactPage
 
 @pytest.mark.smoke
 def test_smoke_search_pliers(page):
@@ -34,3 +36,28 @@ def test_smoke_add_claw_hammer_to_cart(page):
     product.add_to_cart(quantity=3)
 
     expect(home.cart_quantity).to_have_text("3")
+
+
+@pytest.mark.smoke
+def test_smoke_login_invalid_credentials(page):
+    """Mục tiêu: Kiểm tra đăng nhập với tài khoản không tồn tại.
+    Điều kiện: Email không tồn tại và mật khẩu bất kỳ.
+    Kết quả: Hiện lỗi Invalid email or password và vẫn ở trang login.
+    """
+    login = LoginPage(page).open()
+    login.login("nobody-here@example.com", "WrongPassword123")
+
+    expect(login.error).to_have_text("Invalid email or password")
+    expect(page).to_have_url(re.compile(r".*/auth/login$"))
+
+@pytest.mark.smoke
+def test_smoke_contact_empty_form(page):
+    """Mục tiêu: Kiểm tra xác thực Contact form khi để trống.
+    Điều kiện: Mở trang Contact và không nhập dữ liệu.
+    Kết quả: Hiện lỗi Subject is required và Message is required.
+    """
+    contact = ContactPage(page).open()
+    contact.submit()
+
+    expect(contact.subject_error).to_be_visible()
+    expect(contact.message_error).to_be_visible()
