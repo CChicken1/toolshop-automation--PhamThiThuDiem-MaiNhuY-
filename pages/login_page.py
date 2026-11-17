@@ -18,3 +18,7 @@ class LoginPage(BasePage):
         self.password.fill(password)
         self.submit_button.click()
         return self
+
+    def submit_empty(self):
+        self.submit_button.click()
+        return self

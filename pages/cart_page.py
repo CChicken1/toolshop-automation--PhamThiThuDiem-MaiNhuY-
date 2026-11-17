@@ -22,3 +22,10 @@ class CartPage(BasePage):
 
     def total_value(self) -> float:
         return money(self.total.inner_text())
+
+    def click_continue_shopping(self):
+        self.continue_shopping.click()
+        return self
+    
+    
+    

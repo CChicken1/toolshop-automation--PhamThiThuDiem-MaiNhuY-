@@ -1,5 +1,5 @@
 from pages.base_page import BasePage
-
+from pages.cart_page import money
 
 class ProductPage(BasePage):
     def __init__(self, page):
