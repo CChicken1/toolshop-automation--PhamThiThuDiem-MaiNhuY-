@@ -58,3 +58,27 @@ class HomePage(BasePage):
 
     def prices(self) -> list[float]:
         return [float(p.replace("$", "")) for p in self.product_prices.all_inner_texts()]
+
+
+    def filter_by_category(self, category: str):
+        previous_names = self.product_names.all_inner_texts()
+
+        category_checkbox = self.page.get_by_role(
+            "checkbox", name=category, exact=True
+        )
+
+        category_checkbox.check()
+
+        self.page.wait_for_function(
+            """previous => {
+                const names = Array.from(
+                    document.querySelectorAll('[data-test="product-name"]')
+                ).map(el => el.textContent.trim());
+
+                return names.length > 0 &&
+                    JSON.stringify(names) !== JSON.stringify(previous);
+            }""",
+            arg=previous_names
+        )
+
+        return self
