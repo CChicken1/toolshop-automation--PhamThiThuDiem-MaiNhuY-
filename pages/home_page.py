@@ -1,6 +1,7 @@
 import re
 
 from pages.base_page import BasePage
+from playwright.sync_api import expect
 
 # PROD loads the grid with "QUERY /products", BUGGY with "GET /products?...". Not /products/search.
 PRODUCT_LIST = re.compile(r"/products(\?.*)?$")
@@ -39,6 +40,10 @@ class HomePage(BasePage):
     def search(self, keyword: str):
         self.search_box.fill(keyword)
         self.search_button.click()
+        return self
+
+    def wait_search_completed(self):
+        expect(self.search_completed).to_be_visible()
         return self
 
     def sort_by(self, value: str):
