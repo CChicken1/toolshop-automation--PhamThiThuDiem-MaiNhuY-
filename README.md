@@ -6,7 +6,12 @@ Automation Testing Project - Sprint 1
 
 ![CI](https://github.com/CChicken1/toolshop-automation--PhamThiThuDiem-MaiNhuY-/actions/workflows/ci.yml/badge.svg)
 
-### CI Success Screenshot
+### CI Success
 
 ![CI Green](docs/screenshots/ci-green.jpg)
 
+### Trace Viewer
+
+Ảnh minh họa quá trình phân tích lỗi kiểm thử bằng Playwright Trace Viewer.
+
+![Trace Viewer](docs/screenshots/trace-viewer.jpg)
